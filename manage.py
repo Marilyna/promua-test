@@ -57,6 +57,7 @@ def shell():
 def runserver():
     from catalog import app, create
     create(CONFIG)
+    app.debug = True
     app.run(host='0.0.0.0', port=8000)
 
 
