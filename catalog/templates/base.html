@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Catalog</title>
+    <title>Catalog {% block title %}{% endblock %}</title>
     <link rel=stylesheet type=text/css href="/static/bootstrap.css">
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
 <nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav">
 
@@ -17,7 +27,8 @@
         {#            <p class="navbar-text navbar-right">Logged in as {{ username }}</p>#}
         {#            <a href="{{ url_for('logout') }}" class="text-left">Logout</a>#}
         {#        {% else %}#}
-        <li class="navbar-right"><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('registration') }}">Register</a></li>
         {#        {% endif %}#}
     </ul>
 </nav>

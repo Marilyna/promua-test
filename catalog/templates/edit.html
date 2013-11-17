@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}Edit{% endblock %}
 {% block content %}
     <form method="POST" action="{{ url_for('add') }}">
         {{ form.csrf_token }}

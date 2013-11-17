@@ -1,12 +1,15 @@
 <table class="table">
     <thead>
+    <th><input type="checkbox"></th>
     <th>Author</th>
     <th>Book</th>
     </thead>
     {% for book in books %}
         <tr>
+            <td><input type="checkbox"></td>
             <td>{{ book.authors[0].name }}</td>
             <td>{{ book.title }}</td>
         </tr>
     {% endfor %}
 </table>
+<button>Delete</button>

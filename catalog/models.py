@@ -1,4 +1,4 @@
-from catalog import db
+from catalog import db, login_manager
 
 
 authorship = db.Table(
@@ -18,5 +18,21 @@ class Author(db.Model):
     __tablename__ = 'authors'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode(100))
+    name = db.Column(db.Unicode(100), index=True, unique=True)
     books = db.relationship(Book, secondary=authorship, backref=db.backref('authors'))
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.Unicode(255), index=True, unique=True)
+    password = db.Column(db.String(60))
+
+    def get_id(self):
+        return self.id
+
+
+@login_manager.user_loader
+def load_user(userid):
+    return User.query.get(userid)
