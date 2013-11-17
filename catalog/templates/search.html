@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <form action="{{ url_for('search') }}">
+        {{ form.search.label }} {{ form.search }}
+        <input type="submit" value="Search">
+    </form>
+
+    {% if books %}
+        {% include 'book_table.html' %}
+    {% else %}
+        <p>No books in catalog yet!</p>
+    {% endif %}
+{% endblock %}

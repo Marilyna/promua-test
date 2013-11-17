@@ -1,4 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-    EIDT!!!
+    <form method="POST" action="{{ url_for('add') }}">
+        {{ form.csrf_token }}
+        {{ form.author.label }} {{ form.author }}
+        {{ form.title.label }} {{ form.title }}
+        <input type="submit" value="Add book">
+    </form>
+
+    {% if books %}
+        {% include 'book_table.html' %}
+    {% else %}
+        <p>No books in catalog yet!</p>
+    {% endif %}
 {% endblock %}

@@ -8,8 +8,11 @@
 <nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav">
 
-        <li><a href="{{ url_for('index') }}">Search</a></li>
+        <li><a href="{{ url_for('search') }}">Search</a></li>
         <li><a href="{{ url_for('edit') }}">Edit</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+
         {#        {% if logged_in %}#}
         {#            <p class="navbar-text navbar-right">Logged in as {{ username }}</p>#}
         {#            <a href="{{ url_for('logout') }}" class="text-left">Logout</a>#}
