@@ -1,22 +1,40 @@
-<table id="book-table" class="table">
+<table id="book-table" class="table table-bordered">
     <thead>
-    <th><input id="id-select-all-checkbox" type="checkbox"></th>
-    <th>Author</th>
-    <th>Book</th>
+        <th><input id="id-select-all-checkbox" type="checkbox"></th>
+        <th>Author</th>
+        <th>Book</th>
+        <th></th>
     </thead>
 
     <tbody>
     {% for book in books %}
         <tr>
             <td>
-                <input class="book-table-checkbox" type="checkbox" name="selected_books"
+                <input type="checkbox" class="book-table-checkbox" name="selected_books"
                        id="book-{{ book.id }}"
                        value="{{ book.id }}"
                        data-book="{{ book }}"
                        data-authors="{{ book.authors[0] }}">
             </td>
-            <td>{{ book.authors[0].name }}</td>
-            <td>{{ book.title }}</td>
+
+            <td class="editable">
+                <span>{{ book.authors[0].name }}</span>
+                <input type="text" class="hidden" value="{{ book.authors[0].name }}">
+            </td>
+            <td class="editable">
+                <span>{{ book.title }}</span>
+                <input type="text" class="hidden" value="{{ book.title }}">
+            </td>
+            <td>
+{#                <form method="POST" action="{{ url_for('save') }}">#}
+                #TODO move buttons to separate form and place it near the table
+                    <input type="button" class="edit-button" value="Edit"
+                        id="button-{{ book.id }}"
+                        data-book-id="{{ book.id }}"
+                        data-book="{{ book.title }}"
+                        data-author="{{ book.authors[0].name }}">
+{#                </form>#}
+            </td>
         </tr>
     {% endfor %}
     </tbody>

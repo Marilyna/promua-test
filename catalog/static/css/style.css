@@ -1,15 +1,16 @@
-.search-page #book-table thead tr th:first-child {
+.search-page #book-table thead tr th:first-child, .search-page #book-table thead tr th:last-child {
     display: none;
 }
 
-.search-page #book-table tbody tr td:first-child {
+.search-page #book-table tbody tr td:first-child, .search-page #book-table tbody tr td:last-child {
     display: none;
 }
 
-.edit-page #book-table thead tr th:first-child {
+
+.edit-page #book-table thead tr th:first-child, .edit-page #book-table thead tr th:last-child {
     display: block;
 }
 
-.edit-page #book-table tbody tr td:first-child {
+.edit-page #book-table tbody tr td:first-child, .edit-page #book-table tbody tr td:last-child {
     display: block;
 }

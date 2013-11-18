@@ -51,6 +51,12 @@ def delete():
 
     return redirect(url_for('edit'))
 
+
+@app.route('/save/', methods=['POST'])
+def save():
+    return redirect(url_for('edit'));
+
+
 @app.route('/registration/', methods=['POST', 'GET'])
 def registration():
     form = forms.RegistrationForm()
