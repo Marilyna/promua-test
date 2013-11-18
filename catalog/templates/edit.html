@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Edit{% endblock %}
 {% block content %}
-    <form method="POST" action="{{ url_for('add') }}">
-        {{ form.csrf_token }}
-        {{ form.author.label }} {{ form.author }}
-        {{ form.title.label }} {{ form.title }}
-        <input type="submit" value="Add book">
-    </form>
+    <div class="edit-page">
+        <form method="POST" action="{{ url_for('add') }}">
+            {{ form.csrf_token }}
+            {{ form.author.label }} {{ form.author }}
+            {{ form.title.label }} {{ form.title }}
+            <input type="submit" value="Add book">
+        </form>
 
-    {% if books %}
-        {% include 'book_table.html' %}
-        <button>Delete</button>
-    {% else %}
-        <p>No books in catalog yet!</p>
-    {% endif %}
+        {% if books %}
+            {% include 'book_table.html' %}
+            <button>Delete</button>
+        {% else %}
+            <p>No books in catalog yet!</p>
+        {% endif %}
+    </div>
 {% endblock %}

@@ -1,14 +1,22 @@
-<table class="table">
+<table id="book-table" class="table">
     <thead>
-    <th><input type="checkbox"></th>
+    <th><input id="id-check-all-checkbox" class="js-select-all" type="checkbox"></th>
     <th>Author</th>
     <th>Book</th>
     </thead>
+
+    <tbody>
     {% for book in books %}
         <tr>
-            <td><input type="checkbox"></td>
+            <td>
+                <input class="book-table-checkbox" type="checkbox" name="selected_books"
+                       id="{{ book.id }}"
+                       data-authors="{{ book.authors[0] }}"
+                       data-title="{{ book.title }}">
+            </td>
             <td>{{ book.authors[0].name }}</td>
             <td>{{ book.title }}</td>
         </tr>
     {% endfor %}
+    </tbody>
 </table>

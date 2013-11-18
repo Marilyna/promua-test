@@ -1,0 +1,15 @@
+.search-page #book-table thead tr th:first-child {
+    display: none;
+}
+
+.search-page #book-table tbody tr td:first-child {
+    display: none;
+}
+
+.edit-page #book-table thead tr th:first-child {
+    display: block;
+}
+
+.edit-page #book-table tbody tr td:first-child {
+    display: block;
+}
