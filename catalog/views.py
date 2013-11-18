@@ -29,7 +29,7 @@ def edit():
 @login_required
 def add():
     book = Book(title=request.form['title'])
-    author = Author.query.filter_by(name=request.form['author']).one()
+    author = Author.query.filter_by(name=request.form['author']).first()
     if not author:
         author = Author(name=request.form['author'])
     author.books.append(book)
@@ -38,6 +38,18 @@ def add():
     db.session.commit()
     return redirect(url_for('edit'))
 
+
+@app.route('/delete/', methods=['POST'])
+@login_required
+def delete():
+    #TODO delete book
+    ids_to_delete = request.form.getlist('selected_books')
+    for id in ids_to_delete:
+        book = Book.query.get(id)
+        db.session.delete(book)
+    db.session.commit()
+
+    return redirect(url_for('edit'))
 
 @app.route('/registration/', methods=['POST', 'GET'])
 def registration():
@@ -56,7 +68,7 @@ def login():
     error = None
     form = forms.LoginForm()
     if request.method == 'POST':
-        user = User.query.filter_by(email=form.email.data).one()
+        user = User.query.filter_by(email=form.email.data).first()
         # check password and log in
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)

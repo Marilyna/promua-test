@@ -10,7 +10,8 @@
         <tr>
             <td>
                 <input class="book-table-checkbox" type="checkbox" name="selected_books"
-                       id="{{ book.id }}"
+                       id="book-{{ book.id }}"
+                       value="{{ book.id }}"
                        data-book="{{ book }}"
                        data-authors="{{ book.authors[0] }}">
             </td>
