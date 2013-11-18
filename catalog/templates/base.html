@@ -5,15 +5,6 @@
     <link rel=stylesheet type=text/css href="/static/bootstrap.css">
 </head>
 <body>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
 
 <nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav">
@@ -22,14 +13,13 @@
         <li><a href="{{ url_for('edit') }}">Edit</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-
-        {#        {% if logged_in %}#}
-        {#            <p class="navbar-text navbar-right">Logged in as {{ username }}</p>#}
-        {#            <a href="{{ url_for('logout') }}" class="text-left">Logout</a>#}
-        {#        {% else %}#}
-        <li><a href="{{ url_for('login') }}">Login</a></li>
-        <li><a href="{{ url_for('registration') }}">Register</a></li>
-        {#        {% endif %}#}
+        {% if user %}
+            <li><p class="navbar-text">Logged in as <b>{{ user.email }}</b></p></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('registration') }}">Register</a></li>
+        {% endif %}
     </ul>
 </nav>
 

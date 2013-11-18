@@ -1,4 +1,4 @@
-from catalog import db, login_manager
+from catalog import db
 
 
 authorship = db.Table(
@@ -32,7 +32,12 @@ class User(db.Model):
     def get_id(self):
         return self.id
 
+    def is_authenticated(self):
+        return True
 
-@login_manager.user_loader
-def load_user(userid):
-    return User.query.get(userid)
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
