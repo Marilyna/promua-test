@@ -66,15 +66,16 @@ def registration():
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
     error = None
+    nexturl = request.args.get('next') or request.form.get('next') or url_for('search')
     form = forms.LoginForm()
     if request.method == 'POST':
         user = User.query.filter_by(email=form.email.data).first()
         # check password and log in
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(request.args.get('next') or url_for('search'))
+            return redirect(nexturl)
         error = 'Invalid email or password'
-    return render_template('login.html', form=form, error=error)
+    return render_template('login.html', form=form, error=error, next=nexturl)
 
 
 @app.route("/logout/")

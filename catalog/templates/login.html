@@ -5,6 +5,7 @@
         {{ form.csrf_token }}
         {{ form.email.label }} {{ form.email }}
         {{ form.password.label }} {{ form.password }}
+        <input type="hidden" name="next" value="{{ next }}">
         <input type="submit" value="Log in!">
     </form>
 
