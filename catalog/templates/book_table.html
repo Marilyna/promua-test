@@ -1,6 +1,6 @@
 <table id="book-table" class="table">
     <thead>
-    <th><input id="id-check-all-checkbox" class="js-select-all" type="checkbox"></th>
+    <th><input id="id-select-all-checkbox" type="checkbox"></th>
     <th>Author</th>
     <th>Book</th>
     </thead>
@@ -11,8 +11,8 @@
             <td>
                 <input class="book-table-checkbox" type="checkbox" name="selected_books"
                        id="{{ book.id }}"
-                       data-authors="{{ book.authors[0] }}"
-                       data-title="{{ book.title }}">
+                       data-book="{{ book }}"
+                       data-authors="{{ book.authors[0] }}">
             </td>
             <td>{{ book.authors[0].name }}</td>
             <td>{{ book.title }}</td>
