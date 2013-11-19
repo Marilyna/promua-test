@@ -6,21 +6,21 @@ jQuery(function ($) {
         },
 
         cacheElements: function () {
-            catalog.$selectAllCheckbox = $('#id-select-all-checkbox')
+            catalog.$selectAllCheckbox = $('#id-select-all-checkbox');
             catalog.$checkboxes = $('.book-table-checkbox');
             catalog.$editButton = $('.edit-button');
         },
 
         bindEvents: function () {
             catalog.$selectAllCheckbox.on('change', catalog.changeCheckboxes);
-            catalog.$editButton.on('click', catalog.startEditBook);
+            catalog.$editButton.on('click', catalog.editBook);
         },
 
         changeCheckboxes: function () {
             catalog.$checkboxes.prop('checked', $(this).is(':checked'));
         },
 
-        startEditBook: function (event) {
+        editBook: function (event) {
             var target = event.target;
             var editables = $(target).parents('tr').find('.editable');
 
@@ -29,15 +29,29 @@ jQuery(function ($) {
             }
             else if (target.value == 'Save') {
                 target.value = 'Edit';
+
+                $.ajax({
+                    url: '/edit/',
+                    type: 'POST',
+                    dataType: "html",
+                    data: {'book_id': target.dataset.bookId,
+                        'new_author': $(editables[0]).find('input').val(),
+                        'new_title': $(editables[1]).find('input').val()
+                    },
+                    success: function (data) {
+
+                    },
+                    error: function (data) {
+                        console.log(data['error']);
+                    }
+                });
             }
 
-            for (var i=0; i<editables.length; i++) {
-                $(editables[i]).find('input').toggleClass('hidden');
-                $(editables[i]).find('span').toggleClass('hidden');
+            for (var i = 0; i < editables.length; i++) {
+                $(editables[i]).find('input').toggle();
+                $(editables[i]).find('span').toggle();
             }
-            $(target).toggleClass('edit-button');
-            $(target).toggleClass('save-button');
         }
-    }
+    };
     catalog.init();
 });

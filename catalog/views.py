@@ -18,7 +18,8 @@ def search():
 def edit():
     if request.method == 'POST':
         # TODO edit book
-        return 'edit OK!!!'
+        print 'edit!'
+        # return 'edit OK!!!'
     form = forms.AddForm()
     all_books = Book.query.all()
     return render_template('edit.html', form=form, books=all_books,
@@ -42,7 +43,6 @@ def add():
 @app.route('/delete/', methods=['POST'])
 @login_required
 def delete():
-    #TODO delete book
     ids_to_delete = request.form.getlist('selected_books')
     for id in ids_to_delete:
         book = Book.query.get(id)
@@ -50,11 +50,6 @@ def delete():
     db.session.commit()
 
     return redirect(url_for('edit'))
-
-
-@app.route('/save/', methods=['POST'])
-def save():
-    return redirect(url_for('edit'));
 
 
 @app.route('/registration/', methods=['POST', 'GET'])
