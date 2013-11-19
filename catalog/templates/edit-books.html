@@ -1,15 +1,19 @@
-<form method="POST" action="{{ url_for('add') }}">
-    {{ form.csrf_token }}
-    {{ form.author.label }} {{ form.author }}
-    {{ form.title.label }} {{ form.title }}
-    <input type="submit" value="Add book">
-</form>
+{% extends "edit.html" %}
 
-{% if books %}
-    <form method="POST" action="{{ url_for('delete') }}">
-        {% include 'book_table.html' %}
-        <input type="submit" value="Delete">
+{% block edit_content %}
+    <form method="POST" action="{{ url_for('add') }}">
+        {{ form.csrf_token }}
+        {{ form.author.label }} {{ form.author }}
+        {{ form.title.label }} {{ form.title }}
+        <input type="submit" value="Add book">
     </form>
-{% else %}
-    <p>No books in catalog yet!</p>
-{% endif %}
+
+    {% if books %}
+        <form method="POST" action="{{ url_for('delete') }}">
+            {% include 'book_table.html' %}
+            <input type="submit" value="Delete">
+        </form>
+    {% else %}
+        <p>No books in catalog yet!</p>
+    {% endif %}
+{% endblock %}

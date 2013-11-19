@@ -34,7 +34,7 @@ def edit():
 
     form = forms.AddForm()
     all_books = Book.query.all()
-    return render_template('edit.html', form=form, books=all_books,
+    return render_template('edit-books.html', form=form, books=all_books,
                            user=current_user if current_user.is_authenticated() else None)
 
 
@@ -63,6 +63,11 @@ def delete():
 
     return redirect(url_for('edit'))
 
+
+@app.route('/authors/', methods=['POST', 'GET'])
+@login_required
+def authors():
+    return render_template('edit-authors.html')
 
 @app.route('/registration/', methods=['POST', 'GET'])
 def registration():

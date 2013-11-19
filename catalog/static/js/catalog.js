@@ -9,13 +9,13 @@ jQuery(function ($) {
             catalog.$selectAllCheckbox = $('#id-select-all-checkbox');
             catalog.$checkboxes = $('.book-table-checkbox');
             catalog.$editButton = $('.edit-button');
-            catalog.$switchTab = $('#id-switch-tab');
+//            catalog.$switchTab = $('#id-switch-tab');
         },
 
         bindEvents: function () {
             catalog.$selectAllCheckbox.on('change', catalog.changeCheckboxes);
             catalog.$editButton.on('click', catalog.editBook);
-            catalog.$switchTab.on('click', catalog.switchEditTab);
+//            catalog.$switchTab.on('click', catalog.switchEditTab);
         },
 
         changeCheckboxes: function () {
@@ -53,10 +53,9 @@ jQuery(function ($) {
             }
         },
 
-        switchEditTab: function (event) {
-            event.preventDefault();
-            $(this).tab('show');
-        }
+//        switchEditTab: function (event) {
+//            $(this).tab('show');
+//        }
     };
     catalog.init();
 });

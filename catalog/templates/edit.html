@@ -4,21 +4,13 @@
     <div class="edit-page">
         <ul id="id-switch-tab" class="nav nav-pills">
             <li class="active">
-                <a href="#books" data-toggle="tab">Books</a>
+                <a href="{{ url_for('edit') }}">Books</a>
             </li>
             <li>
-                <a href="#authors" data-toggle="tab">Authors</a>
+                <a href="{{ url_for('authors') }}">Authors</a>
             </li>
         </ul>
 
-        <div class="tab-content">
-            <div class="tab-pane active" id="books">
-                {% include "edit-books.html" %}
-            </div>
-
-            <div class="tab-pane" id="authors">
-                {% include "edit-authors.html" %}
-            </div>
-        </div>
+        {% block edit_content %}{% endblock %}
     </div>
 {% endblock %}
