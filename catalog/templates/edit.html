@@ -3,32 +3,22 @@
 {% block content %}
     <div class="edit-page">
         <ul id="id-switch-tab" class="nav nav-pills">
-          <li class="active"><a href="#books" data-toggle="tab">Books</a></li>
-          <li><a href="#authors" data-toggle="tab">Authors</a></li>
+            <li class="active">
+                <a href="#books" data-toggle="tab">Books</a>
+            </li>
+            <li>
+                <a href="#authors" data-toggle="tab">Authors</a>
+            </li>
         </ul>
 
         <div class="tab-content">
-          <div class="tab-pane active" id="books">
-              <form method="POST" action="{{ url_for('add') }}">
-                  {{ form.csrf_token }}
-                  {{ form.author.label }} {{ form.author }}
-                  {{ form.title.label }} {{ form.title }}
-                  <input type="submit" value="Add book">
-              </form>
+            <div class="tab-pane active" id="books">
+                {% include "edit-books.html" %}
+            </div>
 
-              {% if books %}
-                  <form method="POST" action="{{ url_for('delete') }}">
-                      {% include 'book_table.html' %}
-                      <input type="submit" value="Delete">
-                  </form>
-              {% else %}
-                  <p>No books in catalog yet!</p>
-              {% endif %}
-          </div>
-
-          <div class="tab-pane" id="authors">
-              AUTHORS HERE!!!!
-          </div>
+            <div class="tab-pane" id="authors">
+                {% include "edit-authors.html" %}
+            </div>
         </div>
     </div>
 {% endblock %}
