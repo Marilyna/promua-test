@@ -1,3 +1,5 @@
+import json
+
 from flask import render_template, redirect, request, url_for
 from flask.ext.login import login_user, login_required, logout_user, current_user
 
@@ -30,6 +32,7 @@ def edit():
         db.session.add(new_author)
         db.session.add(old_author)
         db.session.commit()
+        return json.dumps({'author': new_author.name, 'title': book.title})
         #FIXME now need to reload page to view refreshed list
 
     form = forms.AddForm()

@@ -9,13 +9,13 @@ jQuery(function ($) {
             catalog.$selectAllCheckbox = $('#id-select-all-checkbox');
             catalog.$checkboxes = $('.book-table-checkbox');
             catalog.$editButton = $('.edit-button');
-//            catalog.$switchTab = $('#id-switch-tab');
+            catalog.$editBox = $('.editable input');
         },
 
         bindEvents: function () {
             catalog.$selectAllCheckbox.on('change', catalog.changeCheckboxes);
             catalog.$editButton.on('click', catalog.editBook);
-//            catalog.$switchTab.on('click', catalog.switchEditTab);
+            catalog.$editBox.on('keypress', catalog.editSubmit);
         },
 
         changeCheckboxes: function () {
@@ -33,13 +33,16 @@ jQuery(function ($) {
                 $.ajax({
                     url: '/edit/',
                     type: 'POST',
-                    dataType: "html",
-                    data: {'book_id': this.dataset.bookId,
+                    dataType: "json",
+                    data: {
+                        'book_id': this.dataset.bookId,
                         'new_author': $(editables[0]).find('input').val(),
                         'new_title': $(editables[1]).find('input').val()
                     },
                     success: function (data) {
-
+                        // refresh author and title on page
+                        $(editables[0]).find('span').text(data['author']);
+                        $(editables[1]).find('span').text(data['title']);
                     },
                     error: function (data) {
                         console.log(data['error']);
@@ -53,9 +56,13 @@ jQuery(function ($) {
             }
         },
 
-//        switchEditTab: function (event) {
-//            $(this).tab('show');
-//        }
+        editSubmit: function (event) {
+            var code = event.keyCode || event.which;
+            if (code == 13) { //Enter keycode
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
     };
     catalog.init();
 });
