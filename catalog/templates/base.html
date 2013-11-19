@@ -2,10 +2,11 @@
 <html>
 <head>
     <title>Catalog {% block title %}{% endblock %}</title>
-    <link rel=stylesheet type=text/css href="/static/css/bootstrap.css">
-    <link rel=stylesheet type=text/css href="/static/css/style.css">
-    <script type="text/javascript" src="/static/js/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="/static/js/catalog.js"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.0.3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/catalog.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 </head>
 <body>
 

@@ -13,7 +13,7 @@ def search():
                            user=current_user if current_user.is_authenticated() else None)
 
 
-@app.route('/edit/', methods=['POST', 'GET'])
+@app.route('/edit/', methods=['GET', 'POST'])
 @login_required
 def edit():
     if request.method == 'POST':
@@ -23,13 +23,14 @@ def edit():
         new_author = Author.query.filter_by(name=request.form.get('new_author')).first()
         if not new_author:
             new_author = Author(name=request.form['new_author'])
-        # remove old authorship with new one
+        # replace old authorship with new one
         new_author.books.append(book)
         old_author.books.remove(book)
         db.session.add(book)
         db.session.add(new_author)
         db.session.add(old_author)
         db.session.commit()
+        #FIXME now need to reload page to view refreshed list
 
     form = forms.AddForm()
     all_books = Book.query.all()
