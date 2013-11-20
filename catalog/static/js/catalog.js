@@ -36,8 +36,8 @@ jQuery(function ($) {
                     dataType: "json",
                     data: {
                         'book_id': this.dataset.bookId,
-                        'new_author': $(editables[0]).find('input').val(),
-                        'new_title': $(editables[1]).find('input').val()
+                        'author': $(editables[0]).find('input').val(),
+                        'title': $(editables[1]).find('input').val()
                     },
                     success: function (data) {
                         // refresh author and title on page

@@ -1,5 +1,3 @@
-import json
-
 from flask import render_template, redirect, request, url_for
 from flask.ext.login import login_user, login_required, logout_user, current_user
 
@@ -9,6 +7,7 @@ from catalog.models import Author, Book, User
 
 @app.route('/')
 def search():
+    # TODO search function
     form = forms.SearchForm()
     all_books = Book.query.all()
     return render_template('search.html', form=form, books=all_books,
@@ -18,24 +17,9 @@ def search():
 @app.route('/edit/', methods=['GET', 'POST'])
 @login_required
 def edit():
-    if request.method == 'POST':
-        book = Book.query.get(request.form.get('book_id'))
-        book.title = request.form.get('new_title')
-        old_author = book.authors[0]
-        new_author = Author.query.filter_by(name=request.form.get('new_author')).first()
-        if not new_author:
-            new_author = Author(name=request.form['new_author'])
-        # replace old authorship with new one
-        new_author.books.append(book)
-        old_author.books.remove(book)
-        db.session.add(book)
-        db.session.add(new_author)
-        db.session.add(old_author)
-        db.session.commit()
-        return json.dumps({'author': new_author.name, 'title': book.title})
-        #FIXME now need to reload page to view refreshed list
-
     form = forms.AddForm()
+    if request.method == 'POST':
+        return form.edit()
     all_books = Book.query.all()
     return render_template('edit-books.html', form=form, books=all_books,
                            user=current_user if current_user.is_authenticated() else None)
@@ -44,14 +28,8 @@ def edit():
 @app.route('/add/', methods=['POST'])
 @login_required
 def add():
-    book = Book(title=request.form['title'])
-    author = Author.query.filter_by(name=request.form['author']).first()
-    if not author:
-        author = Author(name=request.form['author'])
-    author.books.append(book)
-    db.session.add(book)
-    db.session.add(author)
-    db.session.commit()
+    form = forms.AddForm()
+    form.save()
     return redirect(url_for('edit'))
 
 
@@ -63,7 +41,6 @@ def delete():
         book = Book.query.get(id)
         db.session.delete(book)
     db.session.commit()
-
     return redirect(url_for('edit'))
 
 
@@ -72,14 +49,12 @@ def delete():
 def authors():
     return render_template('edit-authors.html')
 
+
 @app.route('/registration/', methods=['POST', 'GET'])
 def registration():
     form = forms.RegistrationForm()
     if request.method == 'POST' and form.validate_on_submit():
-        # register new user
-        user = User(email=form.email.data, password=bcrypt.generate_password_hash(form.password.data))
-        db.session.add(user)
-        db.session.commit()
+        form.save()
         return redirect(url_for('search'))
     return render_template('registration.html', form=form)
 

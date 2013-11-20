@@ -3,14 +3,13 @@
 {% block content %}
     <div class="edit-page">
         <ul id="id-switch-tab" class="nav nav-pills">
-            <li class="active">
+            <li>
                 <a href="{{ url_for('edit') }}">Books</a>
             </li>
             <li>
                 <a href="{{ url_for('authors') }}">Authors</a>
             </li>
         </ul>
-
         {% block edit_content %}{% endblock %}
     </div>
 {% endblock %}
