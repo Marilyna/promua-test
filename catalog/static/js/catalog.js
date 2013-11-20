@@ -8,7 +8,10 @@ jQuery(function ($) {
         cacheElements: function () {
             catalog.$selectAllCheckbox = $('#id-all-checkbox');
             catalog.$checkboxes = $('.book-table-checkbox');
+            catalog.$selectAllAuthorsCheckbox = $('#id-all-authors-checkbox');
+            catalog.$authorCheckboxes = $('.author-table-checkbox');
             catalog.$editButton = $('.edit-button');
+            catalog.$editAuthorButton = $('.edit-author-button');
             catalog.$editBox = $('.editable input');
             catalog.$addAuthorPlus = $('#id-add-author');
             catalog.$authorsList = $('#authors');
@@ -16,13 +19,19 @@ jQuery(function ($) {
 
         bindEvents: function () {
             catalog.$selectAllCheckbox.on('change', catalog.changeCheckboxes);
+            catalog.$selectAllAuthorsCheckbox.on('change', catalog.changeAuthorCheckboxes);
             catalog.$editButton.on('click', catalog.editBook);
+            catalog.$editAuthorButton.on('click', catalog.editAuthor);
             catalog.$editBox.on('keypress', catalog.editSubmit);
             catalog.$addAuthorPlus.on('click', catalog.addAuthorField);
         },
 
         changeCheckboxes: function () {
             catalog.$checkboxes.prop('checked', $(this).is(':checked'));
+        },
+
+        changeAuthorCheckboxes: function () {
+            catalog.$authorCheckboxes.prop('checked', $(this).is(':checked'));
         },
 
         editBook: function () {
@@ -66,6 +75,41 @@ jQuery(function ($) {
                 $(editables[i]).find('input').toggle();
                 $(editables[i]).find('span').toggle();
             }
+        },
+
+        editAuthor: function() {
+            var editable = $(this).parents('tr').find('.editable');
+            if ($(this).val() == 'Edit') {
+                this.value = 'Save';
+            }
+            // save only if author name is not empty
+            else if ($(this).val() == 'Save' && $(editable).find('input').val().trim() != '') {
+                this.value = 'Edit';
+
+                var data = {
+                    'author_id': this.dataset.authorId,
+                    'name': $(editable).find('input').val()
+                };
+
+                $.ajax({
+                    url: '/authors/',
+                    type: 'POST',
+                    dataType: "json",
+                    data: data,
+                    success: function (data) {
+                        // refresh author name on page
+                        $(editable).find('span').text(data['name']);
+                        if (data['error']) {
+                            alert(data['error']);
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.statusText);
+                    }
+                });
+            }
+            $(editable).find('input').toggle();
+            $(editable).find('span').toggle();
         },
 
         editSubmit: function (event) {

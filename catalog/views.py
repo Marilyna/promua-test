@@ -54,8 +54,7 @@ def delete():
 def authors():
     form = forms.AuthorForm()
     if request.method == 'POST':
-        # return form.edit()
-        pass
+        return form.edit()
     all_authors = Author.query.all()
     return render_template('edit-authors.html', form=form, authors=all_authors,
                            user=current_user if current_user.is_authenticated() else None)
@@ -64,14 +63,24 @@ def authors():
 @app.route('/add_author/', methods=['POST'])
 @login_required
 def add_author():
-    print 'add author'
+    form = forms.AuthorForm()
+    form.save()
     return redirect(url_for('authors'))
 
 
 @app.route('/delete_author/', methods=['POST'])
 @login_required
 def delete_author():
-    print 'delete author'
+    ids_to_delete = request.form.getlist('selected_authors')
+    for id in ids_to_delete:
+        author = Author.query.get(id)
+        books = author.books
+        for book in books:
+            # if this is the only author, delete the book
+            if len(book.authors) == 1:
+                db.session.delete(book)
+        db.session.delete(author)
+    db.session.commit()
     return redirect(url_for('authors'))
 
 

@@ -54,7 +54,22 @@ class BookForm(Form):
 
 
 class AuthorForm(Form):
+    author_id = IntegerField()
     name = TextField('Name', validators=[DataRequired()])
+
+    def save(self):
+        author = Author.query.filter_by(name=self.name.data).first() or Author(name=self.name.data)
+        db.session.add(author)
+        db.session.commit()
+        return author
+
+    def edit(self):
+        author = Author.query.get(self.author_id.data)
+        if not author:
+            return json.dumps({'error': 'No author found!'})
+        author.name = self.name.data
+        db.session.commit()
+        return json.dumps({'name': author.name})
 
 
 class SearchForm(Form):
