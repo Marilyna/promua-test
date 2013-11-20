@@ -10,12 +10,15 @@ jQuery(function ($) {
             catalog.$checkboxes = $('.book-table-checkbox');
             catalog.$editButton = $('.edit-button');
             catalog.$editBox = $('.editable input');
+            catalog.$addAuthorPlus = $('#id-add-author');
+            catalog.$authorsList = $('#authors');
         },
 
         bindEvents: function () {
             catalog.$selectAllCheckbox.on('change', catalog.changeCheckboxes);
             catalog.$editButton.on('click', catalog.editBook);
             catalog.$editBox.on('keypress', catalog.editSubmit);
+            catalog.$addAuthorPlus.on('click', catalog.addAuthorField);
         },
 
         changeCheckboxes: function () {
@@ -30,22 +33,30 @@ jQuery(function ($) {
             else if ($(this).val() == 'Save') {
                 this.value = 'Edit';
 
+                var data = {
+                    'book_id': this.dataset.bookId,
+                    'title': $(editables[1]).find('input').val()
+                };
+                var names = $(editables[0]).find('input').val().split(',');
+                for (var i in names) {
+                    data['authors-'+i] = names[i].trim();
+                }
+
                 $.ajax({
                     url: '/edit/',
                     type: 'POST',
                     dataType: "json",
-                    data: {
-                        'book_id': this.dataset.bookId,
-                        'author': $(editables[0]).find('input').val(),
-                        'title': $(editables[1]).find('input').val()
-                    },
+                    data: data,
                     success: function (data) {
                         // refresh author and title on page
-                        $(editables[0]).find('span').text(data['author']);
+                        $(editables[0]).find('span').text(data['authors']);
                         $(editables[1]).find('span').text(data['title']);
+                        if (data['error']) {
+                            alert(data['error']);
+                        }
                     },
                     error: function (data) {
-                        console.log(data['error']);
+                        alert(data.statusText);
                     }
                 });
             }
@@ -62,6 +73,14 @@ jQuery(function ($) {
                 event.stopPropagation();
                 event.preventDefault();
             }
+        },
+
+        addAuthorField: function() {
+            var $newAuthorField = catalog.$authorsList.find('li:first-child').clone();
+            $newAuthorField.find('label').attr('for', 'authors-'+catalog.$authorsList.children().length);
+            $newAuthorField.find('input').attr('id', 'authors-'+catalog.$authorsList.children().length);
+            $newAuthorField.find('input').attr('name', 'authors-'+catalog.$authorsList.children().length);
+            catalog.$authorsList.append($newAuthorField);
         }
     };
     catalog.init();

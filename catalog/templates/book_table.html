@@ -18,8 +18,8 @@
             </td>
 
             <td class="editable">
-                <span>{{ book.authors[0].name }}</span>
-                <input type="text" value="{{ book.authors[0].name }}" hidden>
+                <span>{{ book.authors|join(', ', attribute='name') }}</span>
+                <input type="text" value="{{ book.authors|join(', ', attribute='name') }}" hidden>
             </td>
             <td class="editable">
                 <span>{{ book.title }}</span>

@@ -3,7 +3,11 @@
 {% block edit_content %}
     <form method="POST" action="{{ url_for('add') }}">
         {{ form.csrf_token }}
-        {{ form.author.label }} {{ form.author }}
+{#        <ul id="id-authors-list" class="list-unstyled" style="display: inline-block">#}
+{#            <li>{{ form.authors }}</li>#}
+{#        </ul>#}
+{#        {{ form.authors.label }} #}
+        {{ form.authors }}<span id="id-add-author" class="glyphicon glyphicon-plus"></span>
         {{ form.title.label }} {{ form.title }}
         <input type="submit" value="Add book">
     </form>

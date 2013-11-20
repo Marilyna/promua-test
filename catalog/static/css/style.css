@@ -14,3 +14,14 @@
 .edit-page #book-table tbody tr td:first-child, .edit-page #book-table tbody tr td:last-child {
     display: block;
 }
+
+.glyphicon {
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#authors {
+    display: inline-block;
+    list-style: none;
+}
