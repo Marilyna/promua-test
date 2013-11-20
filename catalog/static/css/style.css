@@ -25,3 +25,9 @@
     display: inline-block;
     list-style: none;
 }
+
+#id-books-list {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+}

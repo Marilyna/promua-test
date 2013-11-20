@@ -1,0 +1,34 @@
+<table id="author-table" class="table table-bordered">
+    <thead>
+        <th><input id="id-all-authors-checkbox" type="checkbox"></th>
+        <th>Author</th>
+        <th>Books</th>
+        <th>Edit</th>
+    </thead>
+
+    <tbody>
+    {% for author in authors %}
+        <tr>
+            <td>
+                <input type="checkbox" class="author-table-checkbox" name="selected_authors" value="{{ author.id }}">
+            </td>
+
+            <td class="editable">
+                <span>{{ author.name }}</span>
+                <input type="text" value="{{ author.name }}" hidden>
+            </td>
+            <td>
+                <ul id="id-books-list">
+                    {% for book in author.books %}
+                        <li>{{ book.title }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+
+            <td>
+                <input type="button" class="edit-button" value="Edit" data-author-id="{{ author.id }}">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -9,7 +9,7 @@ from catalog.validators import EmailUnique
 from catalog.models import Book, Author, User
 
 
-class AddForm(Form):
+class BookForm(Form):
     book_id = IntegerField()
     authors = FieldList(TextField('Author', validators=[DataRequired()]), min_entries=1)
     title = TextField('Title', validators=[DataRequired()])
@@ -36,19 +36,25 @@ class AddForm(Form):
         old_authors = book.authors
         new_authors = []
         for name in self.authors.data:
-            new_authors.append(Author.query.filter_by(name=name).first() or Author(name=name))
+            if name:
+                new_authors.append(Author.query.filter_by(name=name).first() or Author(name=name))
 
         # TODO fix this ugly!
         for old_author in old_authors:
             if old_author not in new_authors:
-                old_author.books.remove(book)
-                db.session.add(old_author)
+                book.authors.remove(old_author)
+                if not old_author.books:
+                    db.session.delete(old_author)
         for new_author in new_authors:
             if new_author not in old_authors:
-                new_author.books.append(book)
+                book.authors.append(new_author)
                 db.session.add(new_author)
         db.session.commit()
         return json.dumps({'authors': ', '.join([author.name for author in new_authors]), 'title': book.title})
+
+
+class AuthorForm(Form):
+    name = TextField('Name', validators=[DataRequired()])
 
 
 class SearchForm(Form):

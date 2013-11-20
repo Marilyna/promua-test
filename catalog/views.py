@@ -17,7 +17,7 @@ def search():
 @app.route('/edit/', methods=['GET', 'POST'])
 @login_required
 def edit():
-    form = forms.AddForm()
+    form = forms.BookForm()
     if request.method == 'POST':
         return form.edit()
     all_books = Book.query.all()
@@ -28,7 +28,7 @@ def edit():
 @app.route('/add/', methods=['POST'])
 @login_required
 def add():
-    form = forms.AddForm()
+    form = forms.BookForm()
     form.save()
     return redirect(url_for('edit'))
 
@@ -39,6 +39,11 @@ def delete():
     ids_to_delete = request.form.getlist('selected_books')
     for id in ids_to_delete:
         book = Book.query.get(id)
+        authors = book.authors
+        for author in authors:
+            # if this book is the only one, delete author
+            if len(author.books) == 1:
+                db.session.delete(author)
         db.session.delete(book)
     db.session.commit()
     return redirect(url_for('edit'))
@@ -47,7 +52,27 @@ def delete():
 @app.route('/authors/', methods=['POST', 'GET'])
 @login_required
 def authors():
-    return render_template('edit-authors.html')
+    form = forms.AuthorForm()
+    if request.method == 'POST':
+        # return form.edit()
+        pass
+    all_authors = Author.query.all()
+    return render_template('edit-authors.html', form=form, authors=all_authors,
+                           user=current_user if current_user.is_authenticated() else None)
+
+
+@app.route('/add_author/', methods=['POST'])
+@login_required
+def add_author():
+    print 'add author'
+    return redirect(url_for('authors'))
+
+
+@app.route('/delete_author/', methods=['POST'])
+@login_required
+def delete_author():
+    print 'delete author'
+    return redirect(url_for('authors'))
 
 
 @app.route('/registration/', methods=['POST', 'GET'])

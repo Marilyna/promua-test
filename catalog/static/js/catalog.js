@@ -6,7 +6,7 @@ jQuery(function ($) {
         },
 
         cacheElements: function () {
-            catalog.$selectAllCheckbox = $('#id-select-all-checkbox');
+            catalog.$selectAllCheckbox = $('#id-all-checkbox');
             catalog.$checkboxes = $('.book-table-checkbox');
             catalog.$editButton = $('.edit-button');
             catalog.$editBox = $('.editable input');
@@ -30,7 +30,8 @@ jQuery(function ($) {
             if ($(this).val() == 'Edit') {
                 this.value = 'Save';
             }
-            else if ($(this).val() == 'Save') {
+            // save only if book title is not empty
+            else if ($(this).val() == 'Save' && $(editables[1]).find('input').val().trim() != '') {
                 this.value = 'Edit';
 
                 var data = {

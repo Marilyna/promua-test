@@ -1,6 +1,6 @@
 <table id="book-table" class="table table-bordered">
     <thead>
-        <th><input id="id-select-all-checkbox" type="checkbox"></th>
+        <th><input id="id-all-checkbox" type="checkbox"></th>
         <th>Author</th>
         <th>Book</th>
         <th>Edit</th>
@@ -10,11 +10,7 @@
     {% for book in books %}
         <tr>
             <td>
-                <input type="checkbox" class="book-table-checkbox" name="selected_books"
-                       id="book-{{ book.id }}"
-                       value="{{ book.id }}"
-                       data-book="{{ book }}"
-                       data-authors="{{ book.authors[0] }}">
+                <input type="checkbox" class="book-table-checkbox" name="selected_books" value="{{ book.id }}">
             </td>
 
             <td class="editable">
@@ -26,9 +22,7 @@
                 <input type="text" value="{{ book.title }}" hidden>
             </td>
             <td>
-                <input type="button" class="edit-button" value="Edit"
-                    id="button-{{ book.id }}"
-                    data-book-id="{{ book.id }}">
+                <input type="button" class="edit-button" value="Edit" data-book-id="{{ book.id }}">
             </td>
         </tr>
     {% endfor %}

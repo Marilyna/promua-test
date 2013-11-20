@@ -1,5 +1,18 @@
 {% extends "edit.html" %}
 
 {% block edit_content %}
-    <p>Authors!!!</p>
+    <form method="POST" action="{{ url_for('add_author') }}">
+        {{ form.csrf_token }}
+        {{ form.name.label }} {{ form.name }}
+        <input type="submit" value="Add author">
+    </form>
+
+    {% if authors %}
+        <form method="POST" action="{{ url_for('delete_author') }}">
+            {% include 'author-table.html' %}
+            <input type="submit" value="Delete">
+        </form>
+    {% else %}
+        <p>No authors in catalog yet!</p>
+    {% endif %}
 {% endblock %}
