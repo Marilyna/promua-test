@@ -9,14 +9,14 @@ from catalog.models import Book, Author, User
 
 
 class BookForm(Form):
-    authors = FieldList(TextField('Author', validators=[DataRequired()]), min_entries=1)
+    authors = FieldList(TextField('Author'), min_entries=1)
     title = TextField('Title', validators=[DataRequired()])
 
     def create(self):
         book = Book(title=self.title.data)
         book.authors = [Author.query.filter_by(name=name).first() or
                         Author(name=name)
-                        for name in set(self.authors.data)]
+                        for name in set(self.authors.data) if name]
 
         db.session.add(book)
         db.session.commit()
@@ -37,6 +37,11 @@ class BookForm(Form):
                 db.session.delete(old_author)
 
         db.session.commit()
+
+    def validate_authors(self, field):
+        authors = filter(None, field.data)
+        if not authors:
+            raise ValidationError('No author specified')
 
 
 class AuthorForm(Form):

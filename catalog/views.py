@@ -54,7 +54,7 @@ def add():
     if form.validate():
         form.create()
         return redirect(url_for('edit'))
-    return jsonify(**form.errors), 400
+    return redirect(url_for('edit'))
 
 
 @app.route('/delete/', methods=['POST'])
@@ -97,7 +97,8 @@ def edit_author(author_id):
 @login_required
 def add_author():
     form = forms.AuthorForm()
-    form.create()
+    if form.validate():
+        form.create()
     return redirect(url_for('authors'))
 
 
