@@ -3,13 +3,9 @@
 {% block content %}
     <form method="POST" action="{{ url_for('login') }}">
         {{ form.csrf_token }}
-        {{ form.email.label }} {{ form.email }}
-        {{ form.password.label }} {{ form.password }}
+        <p>{{ form.email.label }} {{ form.email }} {{ ' '.join(form.email.errors) }}</p>
+        <p>{{ form.password.label }} {{ form.password }} {{ ' '.join(form.password.errors) }}</p>
         <input type="hidden" name="next" value="{{ next }}">
         <input type="submit" value="Log in!">
     </form>
-
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
 {% endblock %}

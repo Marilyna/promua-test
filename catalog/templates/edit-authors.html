@@ -9,6 +9,7 @@
 
     {% if authors %}
         <form method="POST" action="{{ url_for('delete_author') }}">
+            {{ form.csrf_token }}
             {% include 'author-table.html' %}
             <input type="submit" value="Delete">
         </form>

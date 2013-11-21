@@ -16,7 +16,7 @@ class EmailUnique(object):
         self.message = message
 
     def __call__(self, form, field):
-        user = User.query.filter_by(email=field.data)
+        user = User.query.filter_by(email=field.data).first()
         if user:
             if self.message is None:
                 message = field.gettext('This email is already registered')

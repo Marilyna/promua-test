@@ -4,6 +4,7 @@ from opster import command, dispatch
 
 CONFIG = {
     'SQLALCHEMY_DATABASE_URI': 'sqlite:///../db.sqlite',
+    'SQLALCHEMY_ECHO': False,
 }
 
 

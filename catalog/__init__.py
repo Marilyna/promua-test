@@ -18,4 +18,7 @@ def create(config):
     from catalog.login import login_manager
     login_manager.init_app(app)
 
+    from flask_wtf.csrf import CsrfProtect
+    CsrfProtect(app)
+
     import catalog.views

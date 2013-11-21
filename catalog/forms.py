@@ -1,8 +1,7 @@
-import json
 from flask_wtf import Form
 
-from wtforms import TextField, PasswordField, IntegerField, FieldList
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms import TextField, PasswordField, FieldList
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from catalog import db, bcrypt
 from catalog.validators import EmailUnique
@@ -10,66 +9,48 @@ from catalog.models import Book, Author, User
 
 
 class BookForm(Form):
-    book_id = IntegerField()
     authors = FieldList(TextField('Author', validators=[DataRequired()]), min_entries=1)
     title = TextField('Title', validators=[DataRequired()])
 
-    def save(self):
+    def create(self):
         book = Book(title=self.title.data)
-        authors = []
-        for name in self.authors.data:
-            authors.append(Author.query.filter_by(name=name).first() or Author(name=name))
+        book.authors = [Author.query.filter_by(name=name).first() or
+                        Author(name=name)
+                        for name in set(self.authors.data)]
 
-        for author in authors:
-            author.books.append(book)
-            db.session.add(author)
         db.session.add(book)
         db.session.commit()
         return book
 
-    def edit(self):
-        book = Book.query.get(self.book_id.data)
-        if not book:
-            return json.dumps({'error': 'No book found!'})
+    def edit(self, book):
         book.title = self.title.data
 
-        old_authors = book.authors
-        new_authors = []
-        for name in self.authors.data:
-            if name:
-                new_authors.append(Author.query.filter_by(name=name).first() or Author(name=name))
+        old_authors = {author.name: author for author in book.authors}
+        new_authors = [old_authors.get(name) or
+                       Author.query.filter_by(name=name).first() or
+                       Author(name=name)
+                       for name in set(self.authors.data)]
 
-        # TODO fix this ugly!
-        for old_author in old_authors:
-            if old_author not in new_authors:
-                book.authors.remove(old_author)
-                if not old_author.books:
-                    db.session.delete(old_author)
-        for new_author in new_authors:
-            if new_author not in old_authors:
-                book.authors.append(new_author)
-                db.session.add(new_author)
+        book.authors = new_authors
+        for old_author in set(old_authors.values()) - set(new_authors):
+            if not old_author.books:
+                db.session.delete(old_author)
+
         db.session.commit()
-        return json.dumps({'authors': ', '.join([author.name for author in new_authors]), 'title': book.title})
 
 
 class AuthorForm(Form):
-    author_id = IntegerField()
     name = TextField('Name', validators=[DataRequired()])
 
-    def save(self):
+    def create(self):
         author = Author.query.filter_by(name=self.name.data).first() or Author(name=self.name.data)
         db.session.add(author)
         db.session.commit()
         return author
 
-    def edit(self):
-        author = Author.query.get(self.author_id.data)
-        if not author:
-            return json.dumps({'error': 'No author found!'})
+    def edit(self, author):
         author.name = self.name.data
         db.session.commit()
-        return json.dumps({'name': author.name})
 
 
 class SearchForm(Form):
@@ -77,14 +58,24 @@ class SearchForm(Form):
 
 
 class LoginForm(Form):
-    email = TextField('Email', validators=[Email()])
+    email = TextField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    user = None
+
+    def validate_email(self, field):
+        self.user = User.query.filter_by(email=field.data).first()
+        if not self.user:
+            raise ValidationError('No such user')
+
+    def validate_password(self, field):
+        if self.user and not bcrypt.check_password_hash(self.user.password, field.data):
+            raise ValidationError('Wrong password')
 
 
 class RegistrationForm(Form):
-    email = TextField('Email', validators=[Email(), EmailUnique()])
-    password = PasswordField('New Password', validators=[DataRequired(), EqualTo('confirm',
-                                                                                 message='Passwords must match')])
+    email = TextField('Email', validators=[DataRequired(), Email(), EmailUnique()])
+    password = PasswordField('New Password', validators=[
+        DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat password')
 
     def save(self):

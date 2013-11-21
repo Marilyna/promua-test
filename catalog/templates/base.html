@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Catalog {% block title %}{% endblock %}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.0.3.js') }}"></script>

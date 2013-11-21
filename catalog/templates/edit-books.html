@@ -10,6 +10,7 @@
 
     {% if books %}
         <form method="POST" action="{{ url_for('delete') }}">
+            {{ form.csrf_token }}
             {% include 'book-table.html' %}
             <input type="submit" value="Delete">
         </form>
