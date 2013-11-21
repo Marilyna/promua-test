@@ -1,4 +1,4 @@
-<table id="book-table" class="table table-bordered">
+<table id="book-table" class="table table-bordered table-striped data-table">
     <thead>
         <th><input id="id-all-checkbox" type="checkbox"></th>
         <th>Author</th>
@@ -22,7 +22,7 @@
                 <input type="text" value="{{ book.title }}" hidden>
             </td>
             <td>
-                <input type="button" class="btn btn-primary edit-button" value="Edit" data-book-id="{{ book.id }}">
+                <input type="button" class="btn btn-primary btn-xs edit-button" value="Edit" data-book-id="{{ book.id }}">
             </td>
         </tr>
     {% endfor %}

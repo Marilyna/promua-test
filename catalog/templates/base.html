@@ -33,11 +33,12 @@
         <dt>{{ field.label }}</dt>
         <dd>{{ field }}
             {% if field.errors %}
-                <ul class="list-unstyled">
-                    {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
+                {{ ' '.join(field.errors) }}
+{#                <ul class="list-unstyled">#}
+{#                    {% for error in field.errors %}#}
+{#                        <li>{{ error }}</li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
             {% endif %}
         </dd>
     </dl>

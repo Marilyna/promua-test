@@ -105,7 +105,7 @@ jQuery(function ($) {
                     };
 
                     $.ajax({
-                        url: '/authors/',
+                        url: '/authors/' + this.dataset.authorId + '/',
                         type: 'POST',
                         dataType: "json",
                         data: data,
