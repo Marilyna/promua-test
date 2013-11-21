@@ -1,7 +1,7 @@
 from flask_wtf import Form
 
 from wtforms import TextField, PasswordField, FieldList
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, StopValidation
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from catalog import db, bcrypt
 from catalog.validators import EmailUnique
@@ -65,9 +65,9 @@ class LoginForm(Form):
     def validate_password(self, field):
         self.user = User.query.filter_by(email=self.email.data).first()
         if not self.user:
-            raise StopValidation('No such user')
+            raise ValidationError('No such user')
         if self.user and not bcrypt.check_password_hash(self.user.password, field.data):
-            raise StopValidation('Wrong email or password')
+            raise ValidationError('Wrong email or password')
 
 
 class RegistrationForm(Form):

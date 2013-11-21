@@ -40,4 +40,3 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
-
