@@ -38,6 +38,7 @@ def edit():
 @app.route('/edit/<int:book_id>/', methods=['POST'])
 @login_required
 def edit_book(book_id):
+
     book = Book.query.get_or_404(book_id)
     form = forms.BookForm()
     if form.validate():
@@ -50,7 +51,7 @@ def edit_book(book_id):
 @login_required
 def add():
     form = forms.BookForm()
-    if form.validate():
+    if form.validate_on_submit():
         form.create()
         return redirect(url_for('edit'))
     return jsonify(**form.errors), 400

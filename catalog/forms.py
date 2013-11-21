@@ -38,6 +38,14 @@ class BookForm(Form):
 
         db.session.commit()
 
+    def validate_title(self, field):
+        books = Book.query.filter_by(title=field.data).all()
+        for book in books:
+            authors = [name for name in set(self.authors.data)]
+            book_authors = [author.name for author in set(book.authors)]
+            if authors == book_authors:
+                raise ValidationError('This book already exists')
+
 
 class AuthorForm(Form):
     name = TextField('Name', validators=[DataRequired()])
