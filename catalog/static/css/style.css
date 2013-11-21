@@ -21,13 +21,44 @@
     cursor: pointer;
 }
 
-#authors {
+ul#authors {
     display: inline-block;
     list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
 }
 
-#id-books-list {
-    list-style: none;
+ul#id-books-list {
     margin: 0;
-    padding: 10px;
+    padding: 5px;
+}
+
+div.content {
+    margin: 20px;
+}
+
+div.content h1 {
+    font-size: 30px;
+}
+
+div.content form {
+    margin: 10px 0;
+}
+
+div.content form dt, div.content form dd {
+    display: inline;
+}
+
+div.content form dt label {
+    width: 140px;
+    text-align: right;
+    padding-right: 5px;
+}
+div.content form dd input {
+    width: 30%;
+}
+
+div.content form .btn {
+    margin-left: 140px;
+    min-width: 120px;
 }

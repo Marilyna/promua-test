@@ -18,7 +18,7 @@
                 <input type="text" value="{{ author.name }}" hidden>
             </td>
             <td>
-                <ul id="id-books-list">
+                <ul id="id-books-list" class="list-unstyled">
                     {% for book in author.books %}
                         <li>{{ book.title }}</li>
                     {% endfor %}

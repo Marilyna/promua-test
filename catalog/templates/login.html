@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Log in{% endblock %}
 {% block content %}
+    <h1>Login</h1>
+
     <form method="POST" action="{{ url_for('login') }}">
         {{ form.csrf_token }}
-        <p>{{ form.email.label }} {{ form.email }} {{ ' '.join(form.email.errors) }}</p>
-        <p>{{ form.password.label }} {{ form.password }} {{ ' '.join(form.password.errors) }}</p>
+        {{ render_field(form.email) }} {{ ' '.join(form.email.errors) }}
+        {{ render_field(form.password) }} {{ ' '.join(form.password.errors) }}
         <input type="hidden" name="next" value="{{ next }}">
-        <input type="submit" value="Log in!">
+        <input type="submit" class="btn btn-primary" value="Log in!">
     </form>
 {% endblock %}
