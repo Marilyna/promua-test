@@ -5,7 +5,6 @@ DB=db.sqlite
 help:
 	@echo "Use \`make <target>\` with one of targets:"
 	@echo "  env    create virtualenv"
-	@echo "  setup  setup requirements"
 	@echo "  db     initialize db"
 	@echo "  run    run development server"
 	@echo "  shell  start python shell"
@@ -18,9 +17,7 @@ shell:
 
 env:
 	virtualenv env
-
-setup:
-	pip install -r requirements.txt
+	env/bin/pip install -r requirements.txt
 
 db: create-db populate-db
 
