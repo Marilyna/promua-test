@@ -3,9 +3,9 @@
 {% block edit_content %}
     <form method="POST" action="{{ url_for('add') }}">
         {{ form.csrf_token }}
-        {{ form.authors }}<span id="id-add-author" class="glyphicon glyphicon-plus"></span>
+        {{ form.authors }}<span id="id-add-author" title="Add author">+</span>
         {{ form.title.label }} {{ form.title }}
-        <input type="submit" value="Add book">
+        <input type="submit" class="btn btn-primary" value="Add book">
     </form>
 
     {% if books %}

@@ -3,11 +3,13 @@
 {% block content %}
     <h1>Login</h1>
 
-    <form method="POST" action="{{ url_for('login') }}">
-        {{ form.csrf_token }}
-        {{ render_field(form.email) }} {{ ' '.join(form.email.errors) }}
-        {{ render_field(form.password) }} {{ ' '.join(form.password.errors) }}
-        <input type="hidden" name="next" value="{{ next }}">
-        <input type="submit" class="btn btn-primary" value="Log in!">
-    </form>
+    <div class="authentication">
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.csrf_token }}
+            {{ render_field(form.email) }} {{ ' '.join(form.email.errors) }}
+            {{ render_field(form.password) }} {{ ' '.join(form.password.errors) }}
+            <input type="hidden" name="next" value="{{ next }}">
+            <input type="submit" class="btn btn-primary" value="Log in!">
+        </form>
+    <div>
 {% endblock %}

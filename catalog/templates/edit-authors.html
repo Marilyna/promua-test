@@ -4,14 +4,14 @@
     <form method="POST" action="{{ url_for('add_author') }}">
         {{ form.csrf_token }}
         {{ form.name.label }} {{ form.name }}
-        <input type="submit" value="Add author">
+        <input type="submit" class="btn btn-primary" value="Add author">
     </form>
 
     {% if authors %}
         <form method="POST" action="{{ url_for('delete_author') }}">
             {{ form.csrf_token }}
             {% include 'author-table.html' %}
-            <input type="submit" value="Delete">
+            <input type="submit" class="btn btn-primary" value="Delete">
         </form>
     {% else %}
         <p>No authors in catalog yet!</p>

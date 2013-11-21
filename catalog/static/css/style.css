@@ -15,14 +15,15 @@
     display: block;
 }
 
-.glyphicon {
+#id-add-author {
     font-size: 25px;
     font-weight: bold;
     cursor: pointer;
+    margin: 0 10px;
 }
 
 ul#authors {
-    display: inline-block;
+    display: inline-table;
     list-style: none;
     margin-bottom: 0;
     padding-left: 0;
@@ -42,23 +43,35 @@ div.content h1 {
 }
 
 div.content form {
-    margin: 10px 0;
+    margin: 10px 0
 }
 
-div.content form dt, div.content form dd {
-    display: inline;
+div.content form label {
+    margin-right: 5px;
 }
 
-div.content form dt label {
-    width: 140px;
-    text-align: right;
-    padding-right: 5px;
-}
-div.content form dd input {
-    width: 30%;
+div.content form input[type="text"] {
+    width: 300px;
 }
 
 div.content form .btn {
-    margin-left: 140px;
+    margin: 0 10px;
     min-width: 120px;
+}
+
+div.authentication form dt, div.content form dd {
+    display: inline;
+}
+
+div.authentication form dt label {
+    width: 140px;
+    text-align: right;
+}
+
+div.authentication form dd input {
+    width: 30% !important;
+}
+
+div.authentication form .btn {
+    margin-left: 150px;
 }

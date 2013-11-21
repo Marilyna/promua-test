@@ -51,7 +51,7 @@ def edit_book(book_id):
 @login_required
 def add():
     form = forms.BookForm()
-    if form.validate_on_submit():
+    if form.validate():
         form.create()
         return redirect(url_for('edit'))
     return jsonify(**form.errors), 400

@@ -3,11 +3,13 @@
 {% block content %}
     <h1>Registration</h1>
 
-    <form method="POST" action="{{ url_for('registration') }}">
-        {{ form.csrf_token }}
-        {{ render_field(form.email) }}
-        {{ render_field(form.password) }}
-        {{ render_field(form.confirm) }}
-        <input type="submit" class="btn btn-primary" value="Register now!">
-    </form>
+    <div class="authentication">
+        <form method="POST" action="{{ url_for('registration') }}">
+            {{ form.csrf_token }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.confirm) }}
+            <input type="submit" class="btn btn-primary" value="Register now!">
+        </form>
+    </div>
 {% endblock %}
